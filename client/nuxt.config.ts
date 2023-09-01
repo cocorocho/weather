@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     "~/assets/css/main.css",
     "vue-select/dist/vue-select.css",
     "@fortawesome/fontawesome-svg-core/styles.css"
-
   ],
   postcss: {
     plugins: {
@@ -14,6 +13,7 @@ export default defineNuxtConfig({
     },
   },
   modules: [
+    "@nuxt/image",
     "@vueuse/nuxt",
     "nuxt-lodash"
   ],
@@ -21,5 +21,11 @@ export default defineNuxtConfig({
     public: {
       API_URL: process.env.API_URL
     }
+  },
+  image: {
+    dir: "public/images"
+  },
+  app: {
+    layoutTransition: { mode: 'out-in' }
   }
 })

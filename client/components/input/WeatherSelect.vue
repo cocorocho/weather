@@ -2,44 +2,38 @@
   <v-select
     class="w-96"
     @search="searchCity"
+    @close="clearOptions"
     :options="options"
+    :placeholder="$t('helper.searchACity')"
     label="name"
   >
     <template #option="data">
-      {{ data.name }}, {{ data.countryName }}
+      <p @click="emit('getForecast', data)">
+        {{ data.name }}, {{ data.countryName }}
+      </p>
     </template>
     <template #no-options="{ search, searching, loading }">
-      This is the no options slot.
-    </template>
-    <template #list-header>
-      <button
-        type="button"
-        class="px-4"
-        @click="useUserLocation"
-      >
-        <span>
-          <font-awesome-icon :icon="['fas', 'location-crosshairs']" />
-        </span>
-        {{  $t("useMyLocation") }}
-      </button>
+      <p v-if="requestPending" class="loading loading-dots loading-lg"></p>
+      <p v-else-if="search.length < minQueryLength">
+        {{ $t("warning.minCharsToSearch", { n: minQueryLength }) }}
+      </p>
+      <p v-else>
+        {{ $t("helper.noCityFound") }}
+      </p>
     </template>
   </v-select>
 </template>
 
 <script setup lang="ts">
-import { useGeolocation } from '@vueuse/core'
-
+const emit = defineEmits(["getForecast"])
 const searchDebounceTime: number = 500; // ms
 const options = ref();
 const requestPending = ref<boolean>(false);
-
-const useUserLocation = () => {
-  const { coords, locatedAt, error, resume, pause } = useGeolocation()
-}
+const minQueryLength = 3;
 
 const searchCity = useDebounce(
   async (search: string, loading: boolean) => {
-    if (!search) return;
+    if (!search || search.length < minQueryLength) return;
 
     requestPending.value = true;
     const getCityCoordsURL: string = "/q";
@@ -50,5 +44,7 @@ const searchCity = useDebounce(
     requestPending.value = false;
   },
   searchDebounceTime
-)
+);
+
+const clearOptions = () => options.value = [];
 </script>

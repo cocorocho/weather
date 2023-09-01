@@ -7,7 +7,28 @@ export default defineNuxtPlugin(({ vueApp }) => {
     locale: 'en',
     messages: {
       en: {
-        "useMyLocation": "Use my location"
+        "useMyLocation": "Use my location",
+        "weather": {
+          "clearSky": "clear sky",
+          "mainlyClear": "mainly clear ",
+          "partlyCloudy": "partly cloudy",
+          "fog": "fog",
+          "freezingDrizzle": "freezing drizzle",
+          "rain": "rain",
+          "freezingRain": "freezing rain",
+          "snow": "snow",
+          "rainShower": "rain shower",
+          "snowShower": "snow shower",
+          "thunderstorm": "thunderstorm",
+          "thunderStormWithHail": "thunderstorm with hail"
+        },
+        "helper": {
+          "searchACity": "Search a city",
+          "noCityFound": "No cities found"
+        },
+        "warning": {
+          "minCharsToSearch": "Type at least {n} characters to search"
+        }
       }
     }
   })

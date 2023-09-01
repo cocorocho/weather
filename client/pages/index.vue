@@ -1,6 +1,9 @@
 <template>
-    <div>
-        <LayoutHero>
-        </LayoutHero>
-    </div>
+    <Forecast />
 </template>
+
+<script setup lang="ts">
+definePageMeta({
+    layout: "hero"
+})
+</script>
