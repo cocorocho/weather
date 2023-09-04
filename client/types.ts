@@ -14,3 +14,8 @@ type WeatherDescription = {
     image: string
     layout?: string
 }
+
+type DailyForeCastData = {
+    time: Array<string>
+    temperature_2m_max: Array<number>
+}
