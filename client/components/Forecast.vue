@@ -1,5 +1,7 @@
 <template>
-  <LayoutHero>
+  <LayoutHero
+    :contentAttrs="layoutAttrs"
+  >
     <template #image>
       <Transition mode="out-in">
         <NuxtPicture
@@ -8,35 +10,50 @@
           :key="backgroundImage"
           id="weather-image"
           :img-attrs="{
-            class: 'w-screen h-screen'
+            class: 'w-full h-screen top-0 fixed'
           }"
         />
       </Transition>
     </template>
-    <div class="flex flex-col items-center">
-      <InputWeatherSelect
-        @get-forecast="getForecast"
-        class="max-w-2xl p-4 input w-full h-full"
-      />
-      <section id="weather-data" class="mt-4">
-        <template v-if="queriedCity && forecastData">
-          <DataWeatherCard
-            :cityName="queriedCity?.name"
-            :countryName="queriedCity?.countryName"
-            :forecastData="forecastData"
-            :fetching="fetchingData"
+    <div class="flex flex-col items-center w-full">
+      <div class="max-w-2xl w-full">
+        <InputWeatherSelect
+          @get-forecast="getForecast"
+          class="max-w-2xl p-4 input w-full h-full"
+        />
+        <section id="weather-data" class="mt-4">
+          <template v-if="queriedCity && forecastData">
+            <DataWeatherCard
+              :cityName="queriedCity?.name"
+              :countryName="queriedCity?.countryName"
+              :forecastData="forecastData"
+              :fetching="fetchingData"
+              @toggle-chart="toggleChart"
+            />
+          </template>
+        </section>
+      </div>
+      <section :id="chartSectionId" class="mt-4 overflow-x-scroll md:overflow-auto">
+        <div v-if="showChart && forecastData" class="bg-base-100 rounded-xl p-4 bg-opacity-90">
+          <DataWeatherChart
+            :forecastData="forecastData.daily"
           />
-        </template>
+        </div>
       </section>
     </div>
   </LayoutHero>
 </template>
 
 <script setup lang="ts">
+const chartSectionId: string = "daily-weather-chart";
+const layoutAttrs: Object = {
+  class: "w-11/12 md:w-ful"
+};
 const forecastData = ref();
 const queriedCity = ref<City>();
 const fetchingData = ref<boolean>(false);
 const backgroundImage = ref<string>("layout/sea.jpg");
+const showChart = ref<boolean>(false); // TODO set false
 
 const changeWeatherLayout = (weatherCode: number) => {
   const { layout } = getWeatherDescription(weatherCode);
@@ -44,6 +61,22 @@ const changeWeatherLayout = (weatherCode: number) => {
   if (layout && backgroundImage.value !== layout) {
     backgroundImage.value = layout;
   }
+}
+
+const toggleChart = () => {
+  showChart.value = !showChart.value;
+  if (showChart.value === true) {
+    const element: HTMLElement | null = document.getElementById(chartSectionId);
+    
+    if (element) {
+      setTimeout(
+        () => {
+          element.scrollIntoView({ behavior: "smooth" });
+        },
+        100
+      )
+    }
+  };
 }
 
 const getForecast = async (city: City) => {
@@ -76,7 +109,7 @@ const getForecast = async (city: City) => {
 <style scoped>
 #weather-image {
   @apply
-    w-screen
+    w-full
     h-screen
     transition-all
     duration-1000

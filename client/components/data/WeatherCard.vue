@@ -73,6 +73,17 @@
             </p>
           </div>
         </div>
+        <div class="card-actions">
+          <div class="flex items-center grow mt-4 flex-col">
+            <button
+              type="button"
+              class="btn hover:scale-125 btn-circle btn-ghost"
+              @click="$emit('toggleChart')"
+            >
+              <font-awesome-icon :icon="['far', 'circle-down']" size="2xl" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -86,17 +97,12 @@ const props = defineProps<{
   fetching: boolean
 }>();
 
+defineEmits(["toggleChart"]);
+
 const { day, dayName, monthName } = useDate(props.forecastData.current_weather.time);
 </script>
 
 <style scoped>
-.card {
-  @apply
-    w-10/12
-    sm:w-96
-    lg:w-[30rem]
-}
-
 .sub-data p {
   @apply
     font-semibold
