@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  dotnet:
+    container_name: dotnet
+    build:
+      context: .
+      dockerfile: ./docker/containers/dotnet/Dockerfile
+    ports:
+      - 5000:5000
+  
+  nuxt:
+    container_name: nuxt-nginx
+    build:
+      context: .
+      dockerfile: ./docker/containers/nuxt-nginx/Dockerfile
+    ports:
+      - 3001:80
+    depends_on:
+      - dotnet
