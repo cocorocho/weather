@@ -13,10 +13,12 @@ export const getWeatherDescription = (weatherCode: number) : WeatherDescription 
     2: {
       "description": "weather.partlyCloudy",
       "image": "sun-clouds.png",
+      "layout": "layout/cloudy.jpg"
     },
     3: {
       "description": "weather.partlyCloudy",
-      "image": "sun-clouds.png"
+      "image": "sun-clouds.png",
+      "layout": "layout/cloudy.jpg"
     },
     51: {
       "description": "weather.rain",
