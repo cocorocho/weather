@@ -15,10 +15,12 @@ builder.Services.AddDbContext<WeatherDbContext>(options => options.UseSqlite(con
 
 // Cors
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+string? clientURL = builder.Configuration["Urls:clientURL"];
+string? clientPort = builder.Configuration["Urls:clientPort"];
+
 builder.Services.AddCors(options => {
     options.AddPolicy(MyAllowSpecificOrigins, policy => {
-        policy.WithOrigins("http://localhost:3000");
-        policy.WithOrigins("http://localhost:3001");
+        policy.WithOrigins($"http://{clientURL}:{clientPort}");
     });
 });
 

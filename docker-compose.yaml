@@ -7,7 +7,12 @@ services:
       context: .
       dockerfile: ./docker/containers/dotnet/Dockerfile
     ports:
-      - 5000:5000
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      - ASPNETCORE_URLS=http://+:${SERVER_PORT}
+      - ASPNETCORE_ENVIRONMENT=Production
+    env_file:
+      - .env
   
   nuxt:
     container_name: nuxt-nginx
@@ -23,8 +28,14 @@ services:
       - "traefik.http.routers.weather.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.weather.tls=true"
       - "traefik.http.routers.weather.tls.certresolver=netlify"
+    networks:
+      - default
+      # - proxy
+    ports:
+      - ${CLIENT_PORT}:80
 
-networks:
-  proxy:
-    external:
-      true
+# Traefik network
+# networks:
+#   proxy:
+#     external:
+#       true

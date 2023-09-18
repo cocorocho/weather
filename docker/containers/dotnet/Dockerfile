@@ -33,5 +33,4 @@ WORKDIR /code
 
 COPY --from=dotnet-build /dist .
 
-ENV ASPNETCORE_URLS=http://+:5000
 CMD ["dotnet", "api.dll"]
