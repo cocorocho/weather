@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     }
   },
   image: {
-    dir: "static/images",
+    dir: "public/images",
   },
   app: {
     layoutTransition: { mode: 'out-in' }

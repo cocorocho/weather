@@ -1,6 +1,7 @@
 <template>
-  <NuxtImg
-    :src="image"
+  <img
+    v-if="img"
+    :src="img"
   />
 </template>
 
@@ -10,4 +11,5 @@ const props = defineProps<{
 }>();
 
 const { description, image } = getWeatherDescription(props.weatherCode);
+const { img } = usePublicImage(image);
 </script>

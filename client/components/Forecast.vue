@@ -4,7 +4,15 @@
   >
     <template #image>
       <Transition mode="out-in">
-        <NuxtPicture
+        <picture>
+          <img
+            :src="img"
+            :key="img"
+            class="w-full h-sreen top-0 fixed left-0"
+            id="weather-image"
+          >
+        </picture>
+        <!-- <NuxtPicture
           :src="backgroundImage"
           format="webp"
           :key="backgroundImage"
@@ -12,7 +20,7 @@
           :img-attrs="{
             class: 'w-full h-screen top-0 fixed'
           }"
-        />
+        /> -->
       </Transition>
     </template>
     <div class="flex flex-col items-center w-full">
@@ -52,8 +60,12 @@ const layoutAttrs: Object = {
 const forecastData = ref();
 const queriedCity = ref<City>();
 const fetchingData = ref<boolean>(false);
-const backgroundImage = ref<string>("layout/sea.jpg");
+const backgroundImage = ref<string>("/layout/sea.jpg");
 const showChart = ref<boolean>(false); // TODO set false
+const img = computed(() => {
+  const { img: _image } = usePublicImage(backgroundImage.value);
+  return _image.value
+})
 
 const changeWeatherLayout = (weatherCode: number) => {
   const { layout } = getWeatherDescription(weatherCode);
