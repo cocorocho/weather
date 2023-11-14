@@ -1,5 +1,8 @@
 FROM node:20-slim as build
 
+ARG API_URL
+ENV API_URL=${API_URL}
+
 WORKDIR /code
 
 COPY ./client .
